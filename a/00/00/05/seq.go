@@ -8,16 +8,20 @@ import (
 
 var one = big.NewInt(1)
 
-var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
-	a.Sub(a, a)
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	a.SetInt64(0)
 
-	if n < 1 {
+	s := n.Sign()
+	if s == -1 || s == 0 {
 		return nil, goeis.ErrOutOfBounds
 	}
 
-	for x := 1; x <= n; x++ {
-		for y := 1; y <= n; y++ {
-			if x*y == n {
+	t := &big.Int{}
+
+	for x := big.NewInt(1); x.Cmp(n) != 1; x.Add(x, one) {
+		for y := big.NewInt(1); y.Cmp(n) != 1; y.Add(y, one) {
+			t.Mul(x, y)
+			if t.Cmp(n) == 0 {
 				a.Add(a, one)
 			}
 		}

@@ -6,46 +6,50 @@ import (
 	"github.com/superloach/goeis"
 )
 
-var values = make([]*big.Int, 0)
-var iter = 0
+var values = make(map[string]*big.Int)
+var count = &big.Int{}
+var iter = &big.Int{}
 
 var one = big.NewInt(1)
 var two = big.NewInt(2)
 
-var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
-	if n < 1 {
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	s := n.Sign()
+	if s == -1 || s == 0 {
 		return nil, goeis.ErrOutOfBounds
 	}
 
-	x := (&big.Int{})
-
-	for n > len(values) {
-		x.SetInt64(0)
-
-		if iter < len(values) {
-			x.Set(values[iter])
-		} else {
-			x.Set(big.NewInt(int64(iter) + 1))
+	for n.Cmp(big.NewInt(int64(len(values)))) == 1 {
+		x, ok := values[iter.String()]
+		if !ok {
+			x = (&big.Int{}).Add(iter, one)
 		}
 
 		for i := int64(0); i < x.Int64(); i++ {
 			// 2 - ((iter + 1) % 2)
-			val := (&big.Int{}).Sub(
-				big.NewInt(2),
+			val := big.NewInt(2)
+			val.Sub(
+				val,
 				(&big.Int{}).Mod(
-					(&big.Int{}).Add(
-						big.NewInt(int64(iter)),
-						one,
-					),
+					(&big.Int{}).Add(iter, one),
 					two,
 				),
 			)
 
-			values = append(values, val)
+			values[count.String()] = val
+			count.Add(count, one)
 		}
 
-		iter++
+		iter.Add(iter, one)
 	}
 
-	return values[n-1], nil
+	m := (&big.Int{}).Sub(n, one)
+
+	a.Set(values[m.String()])
+
+	print(n.String())
+	print(": ")
+	println(a.String())
+
+	return a, nil
 }

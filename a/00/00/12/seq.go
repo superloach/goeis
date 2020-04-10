@@ -1,7 +1,9 @@
 package a000012
 
-import "github.com/superloach/goeis"
+import "math/big"
 
-var Seq goeis.Seq = func(_ int) (int, error) {
-	return 1, nil
+func Seq(_ *big.Int, a *big.Int) (*big.Int, error) {
+	a.SetInt64(1)
+
+	return a, nil
 }

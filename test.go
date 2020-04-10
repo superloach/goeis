@@ -5,25 +5,32 @@ import (
 	"testing"
 )
 
-func TestSeq(t *testing.T, A Seq, start int, values ...string) {
-	a := big.NewInt(0)
-	val := big.NewInt(0)
+var one = big.NewInt(1)
 
-	for i := 0; i < len(values); i++ {
-		j := i + start
+func TestSeq(t *testing.T, A Seq, start string, vals ...string) {
+	n, ok := (&big.Int{}).SetString(start, 10)
+	if !ok {
+		t.Fatalf("n: can't setstring " + start)
+	}
 
-		a, err := A(j, a)
+	a := &big.Int{}
+	v := &big.Int{}
+
+	for i := 0; i < len(vals); i++ {
+		a, err := A(n, a)
 		if err != nil {
-			t.Error(err)
+			t.Fatal(err)
 		}
 
-		val, ok := val.SetString(values[i], 10)
+		v, ok := v.SetString(vals[i], 10)
 		if !ok {
-			t.Errorf("val: can't setstring " + values[i])
+			t.Fatalf("v: can't setstring " + vals[i])
 		}
 
-		if a.Cmp(val) != 0 {
-			t.Errorf("A(%d) should be %d, got %d", j, val, a)
+		if a.Cmp(v) != 0 {
+			t.Fatalf("A(%d) should be %d, got %d", n, v, a)
 		}
+
+		n.Add(n, one)
 	}
 }

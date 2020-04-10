@@ -2,10 +2,10 @@ package a000004
 
 import (
 	"math/big"
-
-	"github.com/superloach/goeis"
 )
 
-var Seq goeis.Seq = func(_ int, a *big.Int) (*big.Int, error) {
-	return a.SetInt64(0), nil
+func Seq(_ *big.Int, a *big.Int) (*big.Int, error) {
+	a.SetInt64(0)
+
+	return a, nil
 }

@@ -1,11 +1,13 @@
 package a000007
 
-import "github.com/superloach/goeis"
+import "math/big"
 
-var Seq goeis.Seq = func(n int) (int, error) {
-	if n == 0 {
-		return 1, nil
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	if n.Sign() == 0 {
+		a.SetInt64(1)
+	} else {
+		a.SetInt64(0)
 	}
 
-	return 0, nil
+	return a, nil
 }

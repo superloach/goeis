@@ -8,6 +8,6 @@ import (
 
 func TestA000000(t *testing.T) {
 	goeis.TestSeq(
-		t, Seq, 0,
+		t, Seq, "0",
 	)
 }

@@ -1,29 +1,63 @@
 package a000013
 
 import (
+	"math/big"
+
 	"github.com/superloach/goeis"
 	a000010 "github.com/superloach/goeis/a/00/00/10"
 )
 
-var Seq goeis.Seq = func(n int) (int, error) {
-	a := 0
+var (
+	one = big.NewInt(1)
+	two = big.NewInt(2)
+)
 
-	if n < 0 {
-		return 0, goeis.ErrOutOfBounds
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	s := n.Sign()
+	if s == -1 {
+		return nil, goeis.ErrOutOfBounds
+	}
+	if s == 0 {
+		return one, nil
 	}
 
-	if n == 0 {
-		return 1, nil
-	}
+	a.SetInt64(0)
 
-	for _, d := range util.Divides(n) {
-		p, err := a000010.Seq(2 * d)
-		if err != nil {
-			return 0, err
+	t := &big.Int{}
+	d := (&big.Int{}).Set(one)
+
+	// d in 1..n where gcd(d, n) == d
+	for {
+		if d.Cmp(n) == 1 {
+			break
 		}
 
-		a += p * (1 << (n / d))
+		if t.GCD(nil, nil, d, n).Cmp(d) != 0 {
+			d.Add(d, one)
+			continue
+		}
+
+		e := (&big.Int{}).Mul(d, two)
+
+		p := &big.Int{}
+		p, err := a000010.Seq(e, p)
+		if err != nil {
+			return nil, err
+		}
+
+		f := (&big.Int{})
+		f.Quo(n, d)
+		f.Exp(two, f, nil)
+		f.Mul(p, f)
+
+		a.Add(a, f)
+
+		d.Add(d, one)
 	}
 
-	return a / (2 * n), nil
+	t.SetInt64(2)
+	t.Mul(t, n)
+	a.Quo(a, t)
+
+	return a, nil
 }

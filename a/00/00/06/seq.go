@@ -7,8 +7,9 @@ import (
 	a000040 "github.com/superloach/goeis/a/00/00/40"
 )
 
-var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
-	if n < 1 {
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	s := n.Sign()
+	if s == -1 || s == 0 {
 		return nil, goeis.ErrOutOfBounds
 	}
 

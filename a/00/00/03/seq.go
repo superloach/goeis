@@ -6,15 +6,11 @@ import (
 	"github.com/superloach/goeis"
 )
 
-var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
-	if n < 1 || n > len(values) {
+func Seq(n *big.Int, a *big.Int) (*big.Int, error) {
+	if v, ok := values[n.String()]; ok {
+		a.Set(v)
+		return a, nil
+	} else {
 		return nil, goeis.ErrOutOfBounds
 	}
-
-	a, ok := a.SetString(values[n-1], 10)
-	if !ok {
-		return nil, goeis.ErrSetString
-	}
-
-	return a, nil
 }

@@ -6,6 +6,6 @@ import (
 	"github.com/superloach/goeis"
 )
 
-var Seq goeis.Seq = func(_ int, a *big.Int) (*big.Int, error) {
+func Seq(_ *big.Int, a *big.Int) (*big.Int, error) {
 	return nil, goeis.ErrOutOfBounds
 }

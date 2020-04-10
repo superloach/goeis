@@ -7,9 +7,9 @@ import (
 )
 
 func TestA000008(t *testing.T) {
-	goeis.TestSequencer(
-		t, Seq, 0,
-		1, 1, 2, 2, 3,
-		4, 5, 6, 7, 8,
+	goeis.TestSeq(
+		t, Seq, "0",
+		"1", "1", "2", "2", "3",
+		"4", "5", "6", "7", "8",
 	)
 }
