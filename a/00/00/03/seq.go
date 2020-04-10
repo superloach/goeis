@@ -16,12 +16,9 @@ var values = []int{
 }
 
 var Seq goeis.Seq = func(n int) (int, error) {
-	// 1-indexed
-	n--
-
-	if n < 0 || n >= len(values) {
+	if n < 1 || n > len(values) {
 		return 0, goeis.ErrOutOfBounds
 	}
 
-	return values[n], nil
+	return values[n-1], nil
 }

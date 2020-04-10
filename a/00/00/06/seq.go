@@ -8,6 +8,10 @@ import (
 )
 
 var Seq goeis.Seq = func(n int) (int, error) {
+	if n < 1 {
+		return 0, goeis.ErrOutOfBounds
+	}
+
 	p, err := a000040.Seq(n)
 	if err != nil {
 		return 0, err

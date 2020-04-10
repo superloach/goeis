@@ -6,9 +6,11 @@ var values = make([]int, 0)
 var iter = 0
 
 var Seq goeis.Seq = func(n int) (int, error) {
-	n--
+	if n < 1 {
+		return 0, goeis.ErrOutOfBounds
+	}
 
-	for n >= len(values) {
+	for n > len(values) {
 		x := 0
 		if iter < len(values) {
 			x = values[iter]
@@ -22,5 +24,5 @@ var Seq goeis.Seq = func(n int) (int, error) {
 		iter++
 	}
 
-	return values[n], nil
+	return values[n-1], nil
 }
