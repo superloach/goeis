@@ -3,7 +3,6 @@ package a000013
 import (
 	"github.com/superloach/goeis"
 	a000010 "github.com/superloach/goeis/a/00/00/10"
-	"github.com/superloach/goeis/util"
 )
 
 var Seq goeis.Seq = func(n int) (int, error) {

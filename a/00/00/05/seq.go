@@ -1,18 +1,24 @@
 package a000005
 
-import "github.com/superloach/goeis"
+import (
+	"math/big"
 
-var Seq goeis.Seq = func(n int) (int, error) {
-	a := 0
+	"github.com/superloach/goeis"
+)
+
+var one = big.NewInt(1)
+
+var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
+	a.Sub(a, a)
 
 	if n < 1 {
-		return 0, goeis.ErrOutOfBounds
+		return nil, goeis.ErrOutOfBounds
 	}
 
 	for x := 1; x <= n; x++ {
 		for y := 1; y <= n; y++ {
 			if x*y == n {
-				a++
+				a.Add(a, one)
 			}
 		}
 	}

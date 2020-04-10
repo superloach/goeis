@@ -1,20 +1,30 @@
 package a000010
 
 import (
+	"math/big"
+
 	"github.com/superloach/goeis"
-	"github.com/superloach/goeis/util"
 )
 
-var Seq goeis.Seq = func(n int) (int, error) {
+var one = big.NewInt(1)
+
+var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
 	if n < 1 {
-		return 0, goeis.ErrOutOfBounds
+		return nil, goeis.ErrOutOfBounds
 	}
 
-	a := 0
+	a.SetInt64(0)
 
-	for i := 1; i <= n; i++ {
-		if util.GCD(i, n) == 1 {
-			a++
+	m := big.NewInt(int64(n))
+	i := &big.Int{}
+
+	for j := int64(1); j <= int64(n); j++ {
+		i.SetInt64(j)
+
+		i.GCD(nil, nil, i, m)
+
+		if i.Cmp(one) == 0 {
+			a.Add(a, one)
 		}
 	}
 

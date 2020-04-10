@@ -1,21 +1,23 @@
 package a000006
 
 import (
-	"math"
+	"math/big"
 
 	"github.com/superloach/goeis"
 	a000040 "github.com/superloach/goeis/a/00/00/40"
 )
 
-var Seq goeis.Seq = func(n int) (int, error) {
+var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
 	if n < 1 {
-		return 0, goeis.ErrOutOfBounds
+		return nil, goeis.ErrOutOfBounds
 	}
 
-	p, err := a000040.Seq(n)
+	a, err := a000040.Seq(n, a)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
-	return int(math.Sqrt(float64(p))), nil
+	a.Sqrt(a)
+
+	return a, nil
 }

@@ -1,26 +1,49 @@
 package a000002
 
-import "github.com/superloach/goeis"
+import (
+	"math/big"
 
-var values = make([]int, 0)
+	"github.com/superloach/goeis"
+)
+
+var values = make([]*big.Int, 0)
 var iter = 0
 
-var Seq goeis.Seq = func(n int) (int, error) {
+var one = big.NewInt(1)
+var two = big.NewInt(2)
+
+var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
 	if n < 1 {
-		return 0, goeis.ErrOutOfBounds
+		return nil, goeis.ErrOutOfBounds
 	}
 
+	x := (&big.Int{})
+
 	for n > len(values) {
-		x := 0
+		x.SetInt64(0)
+
 		if iter < len(values) {
-			x = values[iter]
+			x.Set(values[iter])
 		} else {
-			x = iter + 1
+			x.Set(big.NewInt(int64(iter) + 1))
 		}
 
-		for i := 0; i < x; i++ {
-			values = append(values, 2-((iter+1)%2))
+		for i := int64(0); i < x.Int64(); i++ {
+			// 2 - ((iter + 1) % 2)
+			val := (&big.Int{}).Sub(
+				big.NewInt(2),
+				(&big.Int{}).Mod(
+					(&big.Int{}).Add(
+						big.NewInt(int64(iter)),
+						one,
+					),
+					two,
+				),
+			)
+
+			values = append(values, val)
 		}
+
 		iter++
 	}
 

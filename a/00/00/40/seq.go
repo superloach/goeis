@@ -1,25 +1,38 @@
 package a000040
 
 import (
+	"math/big"
+
 	"github.com/superloach/goeis"
-	"github.com/superloach/goeis/util"
 )
 
-var values = []int{2}
+var values = []*big.Int{
+	big.NewInt(2),
+}
+var one = big.NewInt(1)
 
-var Seq goeis.Seq = func(n int) (int, error) {
+var Seq goeis.Seq = func(n int, a *big.Int) (*big.Int, error) {
 	if n < 1 {
-		return 0, goeis.ErrOutOfBounds
+		return nil, goeis.ErrOutOfBounds
 	}
 
+	i := big.NewInt(0)
+
 	for n > len(values) {
-		for i := values[len(values)-1] + 1; ; i++ {
-			if util.IsPrime(i) {
+		i.Set(values[len(values)-1])
+		i.Add(i, one)
+
+		for {
+			if i.ProbablyPrime(10) {
 				values = append(values, i)
 				break
 			}
+
+			i.Add(i, one)
 		}
 	}
 
-	return values[n-1], nil
+	a.Set(values[n-1])
+
+	return a, nil
 }

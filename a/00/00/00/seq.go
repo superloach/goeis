@@ -1,7 +1,11 @@
 package a000000
 
-import "github.com/superloach/goeis"
+import (
+	"math/big"
 
-var Seq goeis.Seq = func(n int) (int, error) {
-	return 0, goeis.ErrOutOfBounds
+	"github.com/superloach/goeis"
+)
+
+var Seq goeis.Seq = func(_ int, a *big.Int) (*big.Int, error) {
+	return nil, goeis.ErrOutOfBounds
 }

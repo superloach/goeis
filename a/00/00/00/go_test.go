@@ -7,7 +7,7 @@ import (
 )
 
 func TestA000000(t *testing.T) {
-	goeis.TestSequencer(
+	goeis.TestSeq(
 		t, Seq, 0,
 	)
 }
