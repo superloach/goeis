@@ -1,9 +1,8 @@
 package a000040
 
 import (
-	"math"
-
 	"github.com/superloach/goeis"
+	"github.com/superloach/goeis/util"
 )
 
 var values = []int{2}
@@ -17,15 +16,7 @@ var Seq goeis.Seq = func(n int) (int, error) {
 
 	for len(values) <= n {
 		for i := values[len(values)-1] + 1; ; i++ {
-			prime := true
-
-			for x := 2; x <= int(math.Sqrt(float64(i))); x++ {
-				if i%x == 0 {
-					prime = false
-				}
-			}
-
-			if prime {
+			if util.IsPrime(i) {
 				values = append(values, i)
 				break
 			}
